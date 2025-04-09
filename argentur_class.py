@@ -4,4 +4,3 @@ class Angertur:
         self.sistema_activo = es_activo
         
 
-#puto
