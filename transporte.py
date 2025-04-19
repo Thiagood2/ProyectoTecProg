@@ -28,12 +28,16 @@ class Servicio:
 
     def mostrar_itinerario(self):
         print('Itinerario: ')
-        print(f'''
-            - Origen: {self.itinerario.obtener_ciudad_origen()}
-            - Paradas Itermedias: {self.itinerario.obtener_paradas()}
-            - Destino: {self.itinerario.obtener_ciudad_destino()}
-            '''
-        )
+        print(f'            - Origen: {self.itinerario.obtener_ciudad_origen()}')
+
+        # Armar string con todas las paradas intermedias
+        paradas = self.itinerario.obtener_paradas()
+        nombres_paradas = [p.obtener_nombre_ciudad() for p in paradas]
+        paradas_str = ", ".join(nombres_paradas)
+
+        print(f'            - Paradas Intermedias: {paradas_str}')
+        print(f'            - Destino: {self.itinerario.obtener_ciudad_destino()}')
+
 
 
 
