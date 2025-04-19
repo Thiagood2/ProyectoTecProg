@@ -57,7 +57,7 @@ class Argentur:
             print(f'''
             - Calidad del Servicio: {servicio.obtener_calidad()}
             - Fechas disponibles: 
-                - Salida: {servicio.obtener_fecha_salida()}
+                - Salida: {servicio.obtener_fecha_partida()}
                 - LLegada: {servicio.obtener_fecha_llegada()}
         ---------------------------------------------------------''')
 

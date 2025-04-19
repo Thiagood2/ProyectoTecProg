@@ -24,10 +24,10 @@ class Itinerario:
         self.paradas_itermedias.append(ciudad)
 
     def obtener_ciudad_origen(self):
-        return self.ciudad_origen
+        return self.ciudad_origen.obtener_nombre_ciudad()
 
     def obtener_ciudad_destino(self):
-        return self.ciudad_destino
+        return self.ciudad_destino.obtener_nombre_ciudad()
 
     def obtener_paradas(self):
         return self.paradas_itermedias
