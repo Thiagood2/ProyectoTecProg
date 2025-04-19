@@ -8,8 +8,14 @@ class Ciudad:
         self.nombre_provincia = provincia
 
 class Itinerario:
-    def __init__(self,serivicio: Servicio, ciudad_origen: Ciudad, ciudad_destino: Ciudad,paradas_itermedias:List):
-        pass
+    def __init__(self, ciudad_origen: Ciudad, ciudad_destino: Ciudad):
+        self.ciudad_origen = ciudad_origen
+        self.ciudad_destino = ciudad_destino
+        self.paradas_itermedias = []
+
+    def agregar_paradas(self,ciudad:Ciudad):
+        self.paradas_itermedias.append(ciudad)
+
 
 class Unidad:
     def __init__(self,patente:str):
