@@ -4,7 +4,7 @@ from viajes import Unidad, Itinerario
 
 
 class Servicio:
-    def __init__(self, id_servicio:int, unidad:Unidad,fecha_partida:datetime, fecha_llegada:datetime, calidad:str,precio:float, itinerario:Itinerario):
+    def __init__(self, id_servicio:str, unidad:Unidad,fecha_partida:datetime, fecha_llegada:datetime, calidad:str,precio:float, itinerario:Itinerario):
         self.id = id_servicio
         self.unidad = unidad
         self.fecha_partida = fecha_partida
@@ -25,6 +25,10 @@ class Servicio:
         return self.calidad
     def obtener_precio(self):
         return self.precio
+    def obtener_lugares_disponibles(self):
+        asientos_disponibles = self.unidad.calcular_asientos_libres()
+        return asientos_disponibles
+
 
     def mostrar_itinerario(self):
         print('Itinerario: ')
@@ -51,19 +55,18 @@ class Argentur:
 
     def mostrar_servicios(self):
 
-        print('===================================')
-        print('SERVICIOS DISPONIBLES')
-        print('===================================')
+        print('===============================================')
+        print('             SERVICIOS DISPONIBLES')
+        print('===============================================')
         for servicio in self.servicios:
-    #Agregar logica de Asientos disponibles en (UNIDAD)
-            print(f'Servicio ID: {servicio.obtener_id()}')
-            servicio.mostrar_itinerario()
-            print(f'''
-            - Calidad del Servicio: {servicio.obtener_calidad()}
-            - Fechas disponibles: 
-                - Salida: {servicio.obtener_fecha_partida()}
-                - LLegada: {servicio.obtener_fecha_llegada()}
-        ---------------------------------------------------------''')
+            if len(servicio.obtener_lugares_disponibles()) > 0: #   Calcular el tamanyo de la lista de asientos disponibles
+                print(f'Servicio ID: {servicio.obtener_id()}')
+                servicio.mostrar_itinerario()
+                print(f'- Calidad del Servicio: {servicio.obtener_calidad()}')
+                print('- Fechas Disponibles: ')
+                print(f'            - Salida: {servicio.obtener_fecha_partida()}')
+                print(f'            - LLegada: {servicio.obtener_fecha_llegada()}')
+                print('---------------------------------------------------------')
 
 
 

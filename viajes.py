@@ -34,17 +34,29 @@ class Itinerario:
 
 
 
-
-
-
-class Unidad:
-    def __init__(self,patente:str):
-        self.patente = patente
-        self.asientos = []
-
-
-
 class Asiento:
     def __init__(self,numero:int,ocupado:bool):
         self.numero_asiento = numero
         self.ocupado = ocupado
+
+    def obtener_numero_asiento(self):
+        return self.numero_asiento
+
+    def obtener_estado(self):
+        return self.ocupado
+
+class Unidad:
+    def __init__(self,patente:str, asientos_totales: [Asiento]=None):
+        self.patente = patente
+        self.asientos = asientos_totales
+
+    def calcular_asientos_libres(self):
+        asientos_libres = []
+        for asiento in self.asientos:
+            if not asiento.obtener_estado():
+                asientos_libres.append(asiento)
+        return asientos_libres
+
+
+
+
