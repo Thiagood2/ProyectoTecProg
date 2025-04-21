@@ -1,6 +1,7 @@
 from datetime import datetime
 from viajes import Ciudad, Itinerario, Unidad,Asiento
 from transporte import Servicio, Argentur
+from vistas import VistaServicio
 
 # Crear ciudades
 c1 = Ciudad("CBA", "Córdoba", "Córdoba")
@@ -44,4 +45,11 @@ empresa.agregar_servicio(s1)
 empresa.agregar_servicio(s2)
 empresa.agregar_servicio(s3)
 
-empresa.mostrar_servicios()
+#Vista de Servicios
+vista_servicio = VistaServicio()
+for servicio in empresa.obtener_servicios_disponibles():
+    vista_servicio.mostrar_servicio(servicio)
+
+#Probando visualizar un servicio en especifico (MEJORARLO)
+num = int(input('Seleccione un Servicio con los numeros (1,2,3 ...)'))
+vista_servicio.mostrar_servicio_especifico(empresa.obtener_servicios_disponibles()[num-1])

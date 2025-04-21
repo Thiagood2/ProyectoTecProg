@@ -46,7 +46,7 @@ class Asiento:
         return self.ocupado
 
 class Unidad:
-    def __init__(self,patente:str, asientos_totales: [Asiento]=None):
+    def __init__(self,patente:str, asientos_totales: list[Asiento]):
         self.patente = patente
         self.asientos = asientos_totales
 

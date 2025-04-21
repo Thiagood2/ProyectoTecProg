@@ -2,7 +2,6 @@ from datetime import datetime
 from viajes import Unidad, Itinerario
 
 
-
 class Servicio:
     def __init__(self, id_servicio:str, unidad:Unidad,fecha_partida:datetime, fecha_llegada:datetime, calidad:str,precio:float, itinerario:Itinerario):
         self.id = id_servicio
@@ -25,22 +24,20 @@ class Servicio:
         return self.calidad
     def obtener_precio(self):
         return self.precio
+
+
+    def obtener_ciudad_origen(self):
+        return self.itinerario.obtener_ciudad_origen()
+
+    def obtener_ciudad_destino(self):
+        return self.itinerario.obtener_ciudad_destino()
+
+    def obtener_paradas(self):
+        return self.itinerario.obtener_paradas()
+
     def obtener_lugares_disponibles(self):
         asientos_disponibles = self.unidad.calcular_asientos_libres()
         return asientos_disponibles
-
-
-    def mostrar_itinerario(self):
-        print('Itinerario: ')
-        print(f'            - Origen: {self.itinerario.obtener_ciudad_origen()}')
-
-        # Armar string con todas las paradas intermedias
-        paradas = self.itinerario.obtener_paradas()
-        nombres_paradas = [p.obtener_nombre_ciudad() for p in paradas]
-        paradas_str = ", ".join(nombres_paradas)
-
-        print(f'            - Paradas Intermedias: {paradas_str}')
-        print(f'            - Destino: {self.itinerario.obtener_ciudad_destino()}')
 
 
 
@@ -53,20 +50,16 @@ class Argentur:
     def agregar_servicio(self, servicio: Servicio):
         self.servicios.append(servicio)
 
-    def mostrar_servicios(self):
+    def obtener_servicios_disponibles(self):
+        return [s for s in self.servicios if len(s.obtener_lugares_disponibles()) > 0]
 
-        print('===============================================')
-        print('             SERVICIOS DISPONIBLES')
-        print('===============================================')
-        for servicio in self.servicios:
-            if len(servicio.obtener_lugares_disponibles()) > 0: #   Calcular el tamanyo de la lista de asientos disponibles
-                print(f'Servicio ID: {servicio.obtener_id()}')
-                servicio.mostrar_itinerario()
-                print(f'- Calidad del Servicio: {servicio.obtener_calidad()}')
-                print('- Fechas Disponibles: ')
-                print(f'            - Salida: {servicio.obtener_fecha_partida()}')
-                print(f'            - LLegada: {servicio.obtener_fecha_llegada()}')
-                print('---------------------------------------------------------')
+
+
+
+
+
+
+
 
 
 
