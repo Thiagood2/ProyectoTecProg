@@ -1,10 +1,11 @@
 
-from transporte import Servicio
+from transporte import Servicio,Argentur
 
 #Clase para mostrar todos los Prints de Servicio
 class VistaServicio:
     def __init__(self):
         pass
+
     def mostrar_servicio(self,servicio:Servicio) ->None:
         print(f'Servicio ID: {servicio.obtener_id()}')
         self.mostrar_itinerario(servicio)
@@ -36,3 +37,7 @@ class VistaServicio:
         asientos = [a.obtener_numero_asiento() for a in asientos_disp]
 
         print(f'Asientos Disponibles: {asientos}')
+
+    def mostrar_servicios_disp (self, empresa:Argentur):
+        for servicio in empresa.obtener_servicios_disponibles():
+            self.mostrar_servicio(servicio)

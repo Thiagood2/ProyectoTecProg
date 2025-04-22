@@ -45,10 +45,9 @@ empresa.agregar_servicio(s1)
 empresa.agregar_servicio(s2)
 empresa.agregar_servicio(s3)
 
-#Vista de Servicios
+#Vista de Servicios Disponibles
 vista_servicio = VistaServicio()
-for servicio in empresa.obtener_servicios_disponibles():
-    vista_servicio.mostrar_servicio(servicio)
+vista_servicio.mostrar_servicios_disp(empresa)
 
 #Probando visualizar un servicio en especifico (MEJORARLO)
 num = int(input('Seleccione un Servicio con los numeros (1,2,3 ...)'))

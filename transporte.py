@@ -43,7 +43,7 @@ class Servicio:
 
 
 class Argentur:
-    def __init__(self, sistema_activo: float):
+    def __init__(self, sistema_activo: bool):
         self.sistema_activo = sistema_activo
         self.servicios = []
 
