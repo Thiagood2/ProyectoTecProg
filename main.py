@@ -2,6 +2,7 @@ from datetime import datetime
 from viajes import Ciudad, Itinerario, Unidad,Asiento
 from transporte import Servicio, Argentur
 from vistas import VistaServicio
+from usuarios import Reserva, Pasajero
 
 # Crear ciudades
 c1 = Ciudad("CBA", "Córdoba", "Córdoba")
@@ -34,11 +35,11 @@ u1 = Unidad("ABC123",Asientos)
 u2 = Unidad("BFD323",Asientos)
 u3 = Unidad("CTA587",Asientos_ocupados)
 
-
 # Crear servicio
 s1 = Servicio("001", u1, datetime(2025, 5, 10, 8), datetime(2025, 5, 10, 18), "Turista", 15000, it1)
 s2 = Servicio("002", u2, datetime(2025, 5, 15, 8), datetime(2025, 5, 15, 20), "Premium", 28000, it2)
 s3 = Servicio("003",u3,datetime(2025, 5, 15, 8), datetime(2025, 5, 15, 20), "Turista",16000,it2)
+
 
 empresa = Argentur(True)
 empresa.agregar_servicio(s1)
@@ -52,3 +53,10 @@ vista_servicio.mostrar_servicios_disp(empresa)
 #Probando visualizar un servicio en especifico (MEJORARLO)
 num = int(input('Seleccione un Servicio con los numeros (1,2,3 ...)'))
 vista_servicio.mostrar_servicio_especifico(empresa.obtener_servicios_disponibles()[num-1])
+
+# Crear Pasajero
+pasajero1 = Pasajero("Juan Perez", "pepito@gmail.com", 12345678)
+Reserva.realizar_reserva(s1, pasajero1, 2)
+
+pasajero2 = Pasajero("Lucas", "pepito@gmail.com", 12345678)
+Reserva.realizar_reserva(s1, pasajero1, 5)

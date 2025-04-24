@@ -12,6 +12,7 @@ class Servicio:
         self.precio = precio
         self.itinerario = itinerario
 
+
     def obtener_id(self):
         return self.id
     def obtener_unidad(self):
@@ -39,7 +40,8 @@ class Servicio:
         asientos_disponibles = self.unidad.calcular_asientos_libres()
         return asientos_disponibles
 
-
+    def consultar_asiento(self, numero_asiento:int):
+        return self.unidad.consultar_asiento_disponible(numero_asiento)
 
 
 class Argentur:
