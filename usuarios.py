@@ -37,7 +37,6 @@ class Reserva:
         # Crear la reserva
         asiento.marcar_ocupado()
         reserva = Reserva(servicio, pasajero, asiento, datetime.now())
-        print(f"Reserva realizada: Pasajero {pasajero.obtener_nombre()}, asiento {numero_asiento}, servicio del {servicio.obtener_fecha_partida()}.")
         return reserva  
 
 

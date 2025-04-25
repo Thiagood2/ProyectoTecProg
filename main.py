@@ -46,17 +46,53 @@ empresa.agregar_servicio(s1)
 empresa.agregar_servicio(s2)
 empresa.agregar_servicio(s3)
 
-#Vista de Servicios Disponibles
-vista_servicio = VistaServicio()
-vista_servicio.mostrar_servicios_disp(empresa)
 
-#Probando visualizar un servicio en especifico (MEJORARLO)
-num = int(input('Seleccione un Servicio con los numeros (1,2,3 ...)'))
-vista_servicio.mostrar_servicio_especifico(empresa.obtener_servicios_disponibles()[num-1])
+if __name__ == "__main__":
+    vista_servicio = VistaServicio()
+    pasajero = None
+    while True:
+        print("\n\n--- MENU PRINCIPAL ---")
+        print("1. Consultar Servicios Disponibles")
+        if pasajero is not None:
+            print('2. Realizar Reserva')
+        else:   
+            print('2. Registrarse como Usuario')
+        print("3. Consultar Informe")
+        print("4. Salir")
+        opcion = input("Seleccione una opción: ")
 
-# Crear Pasajero
-pasajero1 = Pasajero("Juan Perez", "pepito@gmail.com", 12345678)
-Reserva.realizar_reserva(s1, pasajero1, 2)
-
-pasajero2 = Pasajero("Lucas", "pepito@gmail.com", 12345678)
-Reserva.realizar_reserva(s1, pasajero1, 5)
+        if opcion == "1":
+            # Vista de Servicios Disponibles
+            vista_servicio.mostrar_servicios_disp(empresa)
+        elif opcion == "2":
+            # Realizar Reserva
+            if pasajero is not None:
+                print('\n\n -- Busqueda de Servicio --')
+                id_servicio = input("Ingrese el ID del servicio: ")
+                servicio = empresa.obtener_servicio_disponible(id_servicio)
+                if servicio is None:
+                    print("ERROR: Servicio no encontrado.")
+                    continue
+                vista_servicio.mostrar_servicio_especifico(servicio)
+                numero_asiento = int(input("Ingrese el número de asiento: "))
+                reserva = Reserva.realizar_reserva(servicio, pasajero, numero_asiento)
+                if reserva is not None:
+                    print("Realizando reserva...")
+                    print(f"Reserva realizada: Pasajero {pasajero.obtener_nombre()}, asiento {numero_asiento}, servicio del {servicio.obtener_fecha_partida()}.")
+                else:
+                    print("No se pudo realizar la reserva.")
+            else:
+                # Registro de Pasajero
+                print("\n -- Registro de Pasajero --")
+                nombre = input("Ingrese su nombre: ")
+                email = input("Ingrese su email: ")
+                dni = int(input("Ingrese su DNI: "))
+                pasajero = Pasajero(nombre, email, dni)
+        elif opcion == "3":
+            #Consultar Informe (a implementar)
+            print("Funcionalidad de informe no implementada.")
+        elif opcion == "4":
+            print("Saliendo...")
+            break
+        else:
+            print("Opción no válida. Intente nuevamente.")

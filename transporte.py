@@ -54,6 +54,15 @@ class Argentur:
 
     def obtener_servicios_disponibles(self):
         return [s for s in self.servicios if len(s.obtener_lugares_disponibles()) > 0]
+    
+    def obtener_servicio_disponible(self, id_servicio:str):
+        for servicio in self.obtener_servicios_disponibles():
+            if servicio.obtener_id() == id_servicio:
+                return servicio
+        return None
+    
+    def obtener_estado_sistema(self):
+        return self.sistema_activo
 
 
 

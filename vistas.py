@@ -10,6 +10,7 @@ class VistaServicio:
         print(f'Servicio ID: {servicio.obtener_id()}')
         self.mostrar_itinerario(servicio)
         print(f'- Calidad del Servicio: {servicio.obtener_calidad()}')
+        print(f'- Precio: ${servicio.obtener_precio()}')
         print('- Fechas Disponibles: ')
         print(f'            - Salida: {servicio.obtener_fecha_partida()}')
         print(f'            - LLegada: {servicio.obtener_fecha_llegada()}')
@@ -18,8 +19,7 @@ class VistaServicio:
     def mostrar_itinerario(self,servicio:Servicio) ->None:
         print('Itinerario: ')
         print(f'            - Origen: {servicio.obtener_ciudad_origen()}')
-
-        # Armar string con todas las paradas intermedias
+        # string con todas las paradas intermedias
         paradas = servicio.obtener_paradas()
         nombres_paradas = [p.obtener_nombre_ciudad() for p in paradas]
         paradas_str = ", ".join(nombres_paradas)
@@ -27,10 +27,11 @@ class VistaServicio:
         print(f'            - Paradas Intermedias: {paradas_str}')
         print(f'            - Destino: {servicio.obtener_ciudad_destino()}')
 
-        # Chequear este METODO (Tratar de pasarlo a VistaServicio)
 
     def mostrar_servicio_especifico(self, servicio:Servicio) ->None:
+        print('\n\n -- INFORMACION DEL SERVICIO --')
         print(f'Servicio ID: {servicio.obtener_id()}')
+        print(f'Precio: ${servicio.obtener_precio()}')
         self.mostrar_itinerario(servicio)
         asientos_disp = servicio.obtener_lugares_disponibles()
 
@@ -39,5 +40,7 @@ class VistaServicio:
         print(f'Asientos Disponibles: {asientos}')
 
     def mostrar_servicios_disp (self, empresa:Argentur):
+        print('\n\n -- SERVICIOS DISPONIBLES --')
         for servicio in empresa.obtener_servicios_disponibles():
             self.mostrar_servicio(servicio)
+        
