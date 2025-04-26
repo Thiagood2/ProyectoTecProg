@@ -1,7 +1,7 @@
 from datetime import datetime
 from viajes import Ciudad, Itinerario, Unidad,Asiento
 from transporte import Servicio, Argentur
-from vistas import VistaServicio
+from vistas import VistaServicio, VistaReserva
 from usuarios import Reserva, Pasajero
 
 # Crear ciudades
@@ -56,9 +56,15 @@ if __name__ == "__main__":
         if pasajero is not None:
             print('2. Realizar Reserva')
         else:   
-            print('2. Registrarse como Usuario')
+            print('2. Registrarse como Usuario')      
         print("3. Consultar Informe")
-        print("4. Salir")
+        
+
+        if (pasajero is not None) and (len(pasajero.obtener_reservas()) > 0):
+            print("4. Consultar Reservas Pendientes")
+        
+        print("F4. Salir")
+
         opcion = input("Seleccione una opción: ")
 
         if opcion == "1":
@@ -88,11 +94,19 @@ if __name__ == "__main__":
                 email = input("Ingrese su email: ")
                 dni = int(input("Ingrese su DNI: "))
                 pasajero = Pasajero(nombre, email, dni)
+                print(f"Pasajero registrado: {pasajero.obtener_nombre()}, DNI: {pasajero.obtener_dni()}")
         elif opcion == "3":
             #Consultar Informe (a implementar)
             print("Funcionalidad de informe no implementada.")
         elif opcion == "4":
+            #Consultar Reservas Pendientes a pagar de Pasajero
+            print("\n\n -- Sus Reservas Pendientes --")
+            vista_reserva = VistaReserva()
+            vista_reserva.mostrar_reservas_pasajero(pasajero)
+
+        elif opcion == "F4":
             print("Saliendo...")
             break
         else:
             print("Opción no válida. Intente nuevamente.")
+

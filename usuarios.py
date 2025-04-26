@@ -1,12 +1,27 @@
-from datetime import datetime
+from datetime import datetime,timedelta
 from transporte import Servicio
 from viajes import Asiento
-
+from pagos import MedioPago
 class Pasajero:
     def __init__(self,nombre:str,email:str,dni:int):
         self.nombre = nombre
         self.email = email
         self.dni = dni
+        self.reservas = []
+
+    def agregar_reserva(self, reserva):
+        self.reservas.append(reserva)
+
+    def obtener_reservas(self):
+        return self.reservas 
+    
+
+
+    def eliminar_reserva(self, reserva):
+        if reserva in self.reservas:
+            self.reservas.remove(reserva)
+        else:
+            print("Reserva no encontrada.")   
 
     def obtener_nombre(self):
         return self.nombre
@@ -21,6 +36,41 @@ class Reserva:
         self.servicio = servicio
         self.pasajero = pasajero
         self.asiento = asiento
+        self.fecha_expiracion = (fecha_hora_reserva + timedelta(minutes=30))   # Expira en 30 minutos
+
+    def obtener_precio_reserva(self):
+        return self.servicio.obtener_precio()
+    
+    def obtener_nombre_servicio(self):
+        return self.servicio.obtener_id()
+    
+    def estado_expirado(self) -> bool:
+        return datetime.now() > self.fecha_expiracion
+
+    def obtener_tiempo_restante(self) -> str:
+        resultado_expiracion = "Expirada"
+
+        if self.estado_expirado():
+            return resultado_expiracion
+        
+        tiempo_restante = self.fecha_expiracion - datetime.now()
+
+        minutos_restantes = int(tiempo_restante.total_seconds() // 60) #Pasaje a minutos
+
+        resultado_expiracion = f' {minutos_restantes} minutos'
+        
+        return resultado_expiracion
+
+
+
+    def obtener_fecha_reserva(self):
+        return self.fecha_reserva.strftime("%d/%m/%Y %H:%M") #Formato de fecha
+    
+    def obtener_fecha_expiracion(self):
+        return self.fecha_expiracion
+    
+    def obtener_asiento(self):
+        return self.asiento.obtener_numero_asiento()
 
     @staticmethod
     def realizar_reserva(servicio: Servicio, pasajero: Pasajero, numero_asiento: int):
@@ -37,9 +87,16 @@ class Reserva:
         # Crear la reserva
         asiento.marcar_ocupado()
         reserva = Reserva(servicio, pasajero, asiento, datetime.now())
+        pasajero.agregar_reserva(reserva)
         return reserva  
 
 
 class Venta:
-    def __init__(self,fecha_hora_venta:datetime):
+    def __init__(self,reserva: Reserva, fecha_hora_venta:datetime, medio_pago: MedioPago):
         self.fecha_venta = fecha_hora_venta
+        self.reserva = reserva  
+        self.medio_pago = medio_pago
+    
+    def obtener_precio_venta(self):
+        return self.reserva.obtener_precio_reserva()
+    

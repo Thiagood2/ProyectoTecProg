@@ -1,6 +1,6 @@
 
 from transporte import Servicio,Argentur
-
+from usuarios import Reserva,Pasajero
 #Clase para mostrar todos los Prints de Servicio
 class VistaServicio:
     def __init__(self):
@@ -44,3 +44,20 @@ class VistaServicio:
         for servicio in empresa.obtener_servicios_disponibles():
             self.mostrar_servicio(servicio)
         
+
+class VistaReserva:
+    def __init__(self):
+        pass
+
+    def mostrar_reserva(self,reserva:Reserva) ->None:
+
+        print(f'\n\nID Servicio: {reserva.obtener_nombre_servicio()}')
+        print(f'Precio Servicio: ${reserva.obtener_precio_reserva()}')
+        print(f'Asiento Elegido: {reserva.obtener_asiento()}')
+        print(f'Fecha Reserva: {reserva.obtener_fecha_reserva()}')
+        print(f'Expira en: {reserva.obtener_tiempo_restante()}')
+
+
+    def mostrar_reservas_pasajero(self, pasajero:Pasajero) ->None:
+        for reserva in pasajero.obtener_reservas():
+            self.mostrar_reserva(reserva)

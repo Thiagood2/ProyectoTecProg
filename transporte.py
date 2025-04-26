@@ -18,9 +18,9 @@ class Servicio:
     def obtener_unidad(self):
         return self.unidad
     def obtener_fecha_partida(self):
-        return self.fecha_partida
+        return self.fecha_partida.strftime("%d/%m/%Y %H:%M")
     def obtener_fecha_llegada(self):
-        return self.fecha_llegada
+        return self.fecha_llegada.strftime("%d/%m/%Y %H:%M")
     def obtener_calidad(self):
         return self.calidad
     def obtener_precio(self):
@@ -37,8 +37,7 @@ class Servicio:
         return self.itinerario.obtener_paradas()
 
     def obtener_lugares_disponibles(self):
-        asientos_disponibles = self.unidad.calcular_asientos_libres()
-        return asientos_disponibles
+        return self.unidad.calcular_asientos_libres()
 
     def consultar_asiento(self, numero_asiento:int):
         return self.unidad.consultar_asiento_disponible(numero_asiento)
