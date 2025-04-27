@@ -69,6 +69,7 @@ class ProcesadorPago:
     def realizar_pago(metodo_pago:MedioPago, monto:float):
         metodo_pago.procesar_pago(monto)
         if metodo_pago.verificar_pago():
-            print('Pago realizado con exito!')
-        else:
-            print('Pago fallido!')
+            print("Pago verificado con éxito.")
+            return True
+        
+        return False

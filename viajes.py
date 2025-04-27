@@ -41,9 +41,13 @@ class Asiento:
 
     def obtener_numero_asiento(self):
         return self.numero_asiento
+    
+    def marcar_libre(self):
+        self.ocupado = False
 
     def marcar_ocupado(self):
         self.ocupado = True
+
         
     def obtener_estado(self):
         return self.ocupado
@@ -59,6 +63,7 @@ class Unidad:
             if not asiento.obtener_estado():
                 asientos_libres.append(asiento)
         return asientos_libres
+    
     def obtener_asientos(self):
         return self.asientos
     

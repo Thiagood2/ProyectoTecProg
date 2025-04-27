@@ -2,8 +2,8 @@ from datetime import datetime
 from viajes import Ciudad, Itinerario, Unidad,Asiento
 from transporte import Servicio, Argentur
 from vistas import VistaServicio, VistaReserva
-from usuarios import Reserva, Pasajero
-from pagos import MedioPago, TarjetaCredito, MercadoPago, Uala
+from usuarios import Reserva, Pasajero, Venta
+from pagos import TarjetaCredito, MercadoPago, Uala
 
 
 # Crear ciudades
@@ -137,32 +137,28 @@ if __name__ == "__main__":
                         opcion_pago = int(input("Ingrese el número del medio de pago: "))
                 
                         if opcion_pago == 1:
-                            medio_pago = "Tarjeta de Crédito"
                             nro = input("Ingrese el número de la tarjeta: ")
                             dni = int(input("Ingrese el DNI del titular: "))
                             nombre = input("Ingrese el nombre del titular: ")
                             fecha_vencimiento_str = input("Ingrese la fecha de vencimiento (YYYY-MM-DD): ")
                             fecha_vencimiento = datetime.strptime(fecha_vencimiento_str, "%Y-%m-%d")
                             tarjetacredito = TarjetaCredito(nro, dni, nombre, fecha_vencimiento)
+                            venta = Venta.realizar_venta(empresa,reserva_a_pagar,datetime.now(), tarjetacredito)  
 
                         elif opcion_pago == 2:
-                            medio_pago = "MercadoPago"
                             celular = input("Ingrese su número de celular: ")
                             email = input("Ingrese su email: ")
                             mercadopago = MercadoPago(celular, email)
+                            venta = Venta.realizar_venta(empresa,reserva_a_pagar,datetime.now(), mercadopago)  
 
                         elif opcion_pago == 3:
-                            medio_pago = "Ualá"
                             email = input("Ingrese su email: ")
                             nombre = input("Ingrese el nombre del titular: ")
                             uala = Uala(email, nombre)
+                            venta = Venta.realizar_venta(empresa,reserva_a_pagar,datetime.now(), uala) 
                         else:
                             print("Opción de medio de pago no válida.")
                             continue
-
-
-                        reserva_a_pagar.concretar_venta()
-                        pasajero.eliminar_reserva(reserva_a_pagar)
                     else:
                         print("Opción no válida.")
             else:

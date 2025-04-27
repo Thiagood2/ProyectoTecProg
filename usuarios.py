@@ -1,8 +1,7 @@
 from datetime import datetime,timedelta
-from transporte import Servicio
+from transporte import Servicio, Argentur
 from viajes import Asiento
 from pagos import MedioPago, ProcesadorPago
-
 class Pasajero:
     def __init__(self,nombre:str,email:str,dni:int):
         self.nombre = nombre
@@ -16,8 +15,6 @@ class Pasajero:
     def obtener_reservas(self):
         return self.reservas 
     
-
-
     def eliminar_reserva(self, reserva):
         if reserva in self.reservas:
             self.reservas.remove(reserva)
@@ -38,17 +35,6 @@ class Reserva:
         self.pasajero = pasajero
         self.asiento = asiento
         self.fecha_expiracion = (fecha_hora_reserva + timedelta(minutes=30))   # Expira en 30 minutos
-        self.pagada = False
-
-    def reserva_pagada(self):
-        return self.pagada
-
-    def concretar_venta(self):
-        if not self.pagada:
-            self.pagada = True
-            print(f"Reserva del asiento {self.asiento.obtener_numero_asiento()} ha sido pagada.")
-        else:
-            print("Esta reserva ya ha sido pagada.")
 
     def obtener_precio_reserva(self):
         return self.servicio.obtener_precio()
@@ -73,10 +59,16 @@ class Reserva:
         
         return resultado_expiracion
 
-
+    def eliminar(self):
+        if self.estado_expirado():
+            self.pasajero.eliminar_reserva(self)
+            self.asiento.marcar_disponible()
+            return
+        
+        self.pasajero.eliminar_reserva(self)
 
     def obtener_fecha_reserva(self):
-        return self.fecha_reserva #Formato de fecha
+        return self.fecha_reserva.strftime("%d/%m/%Y %H:%M") #Formato de fecha
     
     def obtener_fecha_expiracion(self):
         return self.fecha_expiracion
@@ -104,12 +96,23 @@ class Reserva:
 
 
 class Venta:
-    def __init__(self,reserva: Reserva, fecha_hora_venta:datetime, medio_pago: MedioPago):
+    def __init__(self,empresa: Argentur, reserva: Reserva, fecha_hora_venta:datetime, medio_pago: MedioPago):
         self.fecha_venta = fecha_hora_venta
         self.reserva = reserva  
         self.medio_pago = medio_pago
+        empresa.agregar_venta(self)
     
     def obtener_precio_venta(self):
         return self.reserva.obtener_precio_reserva()
     
-    def realizar_venta(self,reserva: Reserva, fecha_hora_venta:datetime, medio_pago: MedioPago ):   
+    @staticmethod
+    def realizar_venta(empresa:Argentur,reserva:Reserva, fecha_hora:datetime,medio_pago:MedioPago):
+        # Delegar la verificación del pago al medio de pago
+        if not ProcesadorPago.realizar_pago(medio_pago,reserva.obtener_precio_reserva()):
+            print("Error: El pago no fue procesado.")
+            return None
+        
+        # Crear la venta
+        venta = Venta(empresa,reserva, fecha_hora, medio_pago)
+        reserva.eliminar()
+        return venta

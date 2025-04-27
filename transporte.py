@@ -51,9 +51,14 @@ class Argentur:
     def __init__(self, sistema_activo: bool):
         self.sistema_activo = sistema_activo
         self.servicios = []
+        self.ventas = []
+
 
     def agregar_servicio(self, servicio: Servicio):
         self.servicios.append(servicio)
+
+    def agregar_venta(self, venta):
+        self.ventas.append(venta)
 
     def obtener_servicios_disponibles(self):
         return [s for s in self.servicios if len(s.obtener_lugares_disponibles()) > 0]
@@ -67,6 +72,8 @@ class Argentur:
     def obtener_estado_sistema(self):
         return self.sistema_activo
     
+# Cambiar todo lo que viene en una clase VistaInforme y una clase GeneradorInforme
+"""    
     def generar_informe(self, fecha_desde: datetime, fecha_hasta: datetime):
         generador = GeneradorInforme(self.servicios)
         informe = generador.generar(fecha_desde, fecha_hasta)
@@ -105,7 +112,7 @@ class GeneradorInforme:
             "total_facturado": total_facturado,
             "viajes_por_destino": viajes_por_destino,
         }
-        
+"""
 
 
 
