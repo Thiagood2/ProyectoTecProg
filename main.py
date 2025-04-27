@@ -3,6 +3,7 @@ from viajes import Ciudad, Itinerario, Unidad,Asiento
 from transporte import Servicio, Argentur
 from vistas import VistaServicio, VistaReserva
 from usuarios import Reserva, Pasajero
+from pagos import MedioPago, TarjetaCredito, MercadoPago, Uala
 
 
 # Crear ciudades
@@ -63,7 +64,7 @@ if __name__ == "__main__":
 
         if (pasajero is not None) and (len(pasajero.obtener_reservas()) > 0):
             print("4. Consultar Reservas Pendientes")
-        
+            print("5. Pagar Reservas Pendientes")
         print("F4. Salir")
 
         opcion = input("Seleccione una opción: ")
@@ -112,6 +113,61 @@ if __name__ == "__main__":
             vista_reserva = VistaReserva()
             vista_reserva.mostrar_reservas_pasajero(pasajero)
 
+        elif opcion == "5":
+            # Concretar ventas (pagar reservas pendientes)
+            print("\n\n -- Pagar Reservas Pendientes --")
+            if pasajero is not None:
+                reservas_pendientes = [reserva for reserva in pasajero.obtener_reservas() if not reserva.estado_expirado()]
+                if len(reservas_pendientes) == 0:
+                    print("No tiene reservas pendientes de pago.")
+                else:
+                    print("Reservas pendientes:")
+                    for i, reserva in enumerate(reservas_pendientes, start=1):
+                        print(f"{i}. Asiento {reserva.obtener_asiento()}, Servicio: {reserva.servicio.obtener_id()}, Precio: ${reserva.servicio.obtener_precio()}")
+            
+                    opcion_reserva = int(input("Seleccione el número de la reserva que desea pagar: "))
+                    if 1 <= opcion_reserva <= len(reservas_pendientes):
+                        reserva_a_pagar = reservas_pendientes[opcion_reserva - 1]
+
+                        # Elegir medio de pago
+                        print("\nSeleccione el medio de pago:")
+                        print("1. Tarjeta de Crédito")
+                        print("2. MercadoPago")
+                        print("3. Ualá")
+                        opcion_pago = int(input("Ingrese el número del medio de pago: "))
+                
+                        if opcion_pago == 1:
+                            medio_pago = "Tarjeta de Crédito"
+                            nro = input("Ingrese el número de la tarjeta: ")
+                            dni = int(input("Ingrese el DNI del titular: "))
+                            nombre = input("Ingrese el nombre del titular: ")
+                            fecha_vencimiento_str = input("Ingrese la fecha de vencimiento (YYYY-MM-DD): ")
+                            fecha_vencimiento = datetime.strptime(fecha_vencimiento_str, "%Y-%m-%d")
+                            tarjetacredito = TarjetaCredito(nro, dni, nombre, fecha_vencimiento)
+
+                        elif opcion_pago == 2:
+                            medio_pago = "MercadoPago"
+                            celular = input("Ingrese su número de celular: ")
+                            email = input("Ingrese su email: ")
+                            mercadopago = MercadoPago(celular, email)
+
+                        elif opcion_pago == 3:
+                            medio_pago = "Ualá"
+                            email = input("Ingrese su email: ")
+                            nombre = input("Ingrese el nombre del titular: ")
+                            uala = Uala(email, nombre)
+                        else:
+                            print("Opción de medio de pago no válida.")
+                            continue
+
+
+                        reserva_a_pagar.concretar_venta()
+                        pasajero.eliminar_reserva(reserva_a_pagar)
+                    else:
+                        print("Opción no válida.")
+            else:
+                print("Debe registrarse como pasajero para pagar reservas.")
+        
         elif opcion == "F4":
             print("Saliendo...")
             break

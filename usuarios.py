@@ -1,7 +1,7 @@
 from datetime import datetime,timedelta
 from transporte import Servicio
 from viajes import Asiento
-from pagos import MedioPago
+from pagos import MedioPago, ProcesadorPago
 
 class Pasajero:
     def __init__(self,nombre:str,email:str,dni:int):
@@ -38,6 +38,17 @@ class Reserva:
         self.pasajero = pasajero
         self.asiento = asiento
         self.fecha_expiracion = (fecha_hora_reserva + timedelta(minutes=30))   # Expira en 30 minutos
+        self.pagada = False
+
+    def reserva_pagada(self):
+        return self.pagada
+
+    def concretar_venta(self):
+        if not self.pagada:
+            self.pagada = True
+            print(f"Reserva del asiento {self.asiento.obtener_numero_asiento()} ha sido pagada.")
+        else:
+            print("Esta reserva ya ha sido pagada.")
 
     def obtener_precio_reserva(self):
         return self.servicio.obtener_precio()
@@ -101,3 +112,4 @@ class Venta:
     def obtener_precio_venta(self):
         return self.reserva.obtener_precio_reserva()
     
+    def realizar_venta(self,reserva: Reserva, fecha_hora_venta:datetime, medio_pago: MedioPago ):   
