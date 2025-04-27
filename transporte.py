@@ -60,6 +60,9 @@ class Argentur:
     def agregar_venta(self, venta):
         self.ventas.append(venta)
 
+    def obtener_ventas(self):
+        return self.ventas
+
     def obtener_servicios_disponibles(self):
         return [s for s in self.servicios if len(s.obtener_lugares_disponibles()) > 0]
     
@@ -71,48 +74,33 @@ class Argentur:
     
     def obtener_estado_sistema(self):
         return self.sistema_activo
-    
-# Cambiar todo lo que viene en una clase VistaInforme y una clase GeneradorInforme
-"""    
-    def generar_informe(self, fecha_desde: datetime, fecha_hasta: datetime):
-        generador = GeneradorInforme(self.servicios)
-        informe = generador.generar(fecha_desde, fecha_hasta)
-
-        # Mostrar el informe
-        print("\n--- INFORME ---")
-        print(f"Período: {fecha_desde.strftime('%d/%m/%Y')} - {fecha_hasta.strftime('%d/%m/%Y')}")
-        print(f"Total facturado: ${informe['total_facturado']}")
-        print("\nViajes por destino:")
-        for destino, cantidad in informe["viajes_por_destino"].items():
-            print(f"  {destino}: {cantidad} viajes")
-
 
 class GeneradorInforme:
-    def __init__(self, servicios):
-        self.servicios = servicios
+    def __init__(self, ventas):
+        self.ventas = ventas
 
     def generar(self, fecha_desde: datetime, fecha_hasta: datetime):
-        from usuarios import Reserva
         total_facturado = 0
-        viajes_por_destino = defaultdict(int)
+        ventas_por_destino = defaultdict(int)
+        pagos_por_medio = defaultdict(int)
 
-        for servicio in self.servicios:
-            for reserva in servicio.obtener_reservas():
-                if isinstance(reserva, Reserva):
-                    fecha_reserva = reserva.obtener_fecha_reserva()
-                    if fecha_desde <= fecha_reserva <= fecha_hasta:
-                        # Sumar al total facturado
-                        total_facturado += reserva.obtener_precio_reserva()
+        for venta in self.ventas:
+            fecha_venta = venta.obtener_fecha_venta()
+            if fecha_desde <= fecha_venta <= fecha_hasta:
+                total_facturado += venta.obtener_precio_venta()
 
-                        # Contar viajes por destino
-                        destino = servicio.obtener_ciudad_destino()
-                        viajes_por_destino[destino] += 1
+                destino = venta.obtener_destino()
+                ventas_por_destino[destino] += 1
+
+                medio_pago = venta.obtener_medio_pago()
+                pagos_por_medio[medio_pago] += 1
 
         return {
             "total_facturado": total_facturado,
-            "viajes_por_destino": viajes_por_destino,
+            "ventas_por_destino": ventas_por_destino,
+            "pagos_por_medio": pagos_por_medio
         }
-"""
+
 
 
 

@@ -42,6 +42,9 @@ class Reserva:
     def obtener_nombre_servicio(self):
         return self.servicio.obtener_id()
     
+    def obtener_destino_servicio(self):
+        return self.servicio.obtener_ciudad_destino()
+    
     def estado_expirado(self) -> bool:
         return datetime.now() > self.fecha_expiracion
 
@@ -101,9 +104,18 @@ class Venta:
         self.reserva = reserva  
         self.medio_pago = medio_pago
         empresa.agregar_venta(self)
+
+    def obtener_fecha_venta(self):
+        return self.fecha_venta
+    
+    def obtener_destino(self):
+        return self.reserva.obtener_destino_servicio()
     
     def obtener_precio_venta(self):
         return self.reserva.obtener_precio_reserva()
+    
+    def obtener_medio_pago(self):
+        return self.medio_pago.mostrar_medio()
     
     @staticmethod
     def realizar_venta(empresa:Argentur,reserva:Reserva, fecha_hora:datetime,medio_pago:MedioPago):

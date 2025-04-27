@@ -15,6 +15,11 @@ class MedioPago(ABC):
     def verificar_pago(self) ->bool:
         pass
 
+    @abstractmethod
+    def mostrar_medio(self) ->str:
+        pass
+
+
 class MercadoPago(MedioPago):
     def __init__(self, celular, email):
         super().__init__()
@@ -27,6 +32,9 @@ class MercadoPago(MedioPago):
     def verificar_pago(self):
         # Logica de verificar con MP
         return True
+    
+    def mostrar_medio(self) ->str:
+        return "Mercado Pago"
 
 
 class TarjetaCredito(MedioPago):
@@ -43,6 +51,9 @@ class TarjetaCredito(MedioPago):
     def verificar_pago(self):
         # Logica de verificar con TC
         return True
+    
+    def mostrar_medio(self) ->str:
+        return "Tarjeta de Credito"
 
 class Uala(MedioPago):
 
@@ -57,6 +68,9 @@ class Uala(MedioPago):
     def verificar_pago(self):
         # Logica de verificar con Uala
         return True
+    
+    def mostrar_medio(self) ->str:
+        return "Uala"
 
 
 

@@ -1,7 +1,7 @@
 from datetime import datetime
 from viajes import Ciudad, Itinerario, Unidad,Asiento
 from transporte import Servicio, Argentur
-from vistas import VistaServicio, VistaReserva
+from vistas import VistaServicio, VistaReserva, VistaInforme
 from usuarios import Reserva, Pasajero, Venta
 from pagos import TarjetaCredito, MercadoPago, Uala
 
@@ -51,6 +51,7 @@ empresa.agregar_servicio(s3)
 
 if __name__ == "__main__":
     vista_servicio = VistaServicio()
+    vista_informe = VistaInforme()
     pasajero = None
     while True:
         print("\n\n--- MENU PRINCIPAL ---")
@@ -98,6 +99,7 @@ if __name__ == "__main__":
                 dni = int(input("Ingrese su DNI: "))
                 pasajero = Pasajero(nombre, email, dni)
                 print(f"Pasajero registrado: {pasajero.obtener_nombre()}, DNI: {pasajero.obtener_dni()}")
+
         elif opcion == "3":
              #Consultar Informe
              print("\n--- Generar Informe ---")
@@ -105,7 +107,7 @@ if __name__ == "__main__":
              fecha_hasta_str = input("Ingrese la fecha hasta (YYYY-MM-DD): ")
              fecha_desde = datetime.strptime(fecha_desde_str, "%Y-%m-%d")
              fecha_hasta = datetime.strptime(fecha_hasta_str, "%Y-%m-%d")
-             empresa.generar_informe(fecha_desde, fecha_hasta)
+             vista_informe.mostrar_informe(empresa.obtener_ventas(), fecha_desde, fecha_hasta)
            
         elif opcion == "4":
             #Consultar Reservas Pendientes a pagar de Pasajero

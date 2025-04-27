@@ -1,6 +1,7 @@
 
-from transporte import Servicio,Argentur
-from usuarios import Reserva,Pasajero
+from transporte import Servicio,Argentur, GeneradorInforme
+from usuarios import Reserva,Pasajero, Venta
+from datetime import datetime
 #Clase para mostrar todos los Prints de Servicio
 class VistaServicio:
     def __init__(self):
@@ -64,3 +65,23 @@ class VistaReserva:
     def mostrar_reservas_pasajero(self, pasajero:Pasajero) ->None:
         for reserva in pasajero.obtener_reservas():
             self.mostrar_reserva(reserva)
+
+
+class VistaInforme:
+    def __init__(self):
+        pass
+
+    def mostrar_informe(self, ventas: list[Venta], fecha_desde: datetime, fecha_hasta: datetime) -> None:
+        generarinforme = GeneradorInforme(ventas)
+        informe = generarinforme.generar(fecha_desde, fecha_hasta)
+        print('\n\n -- INFORME DE VENTAS --')
+        print(f"Período: {fecha_desde.strftime('%d/%m/%Y')} - {fecha_hasta.strftime('%d/%m/%Y')}")
+        print(f'Total Facturado: ${informe['total_facturado']:.2f}')
+        print("\nVentas por destino:")
+        for destino, cantidad in informe["ventas_por_destino"].items():
+            print(f"  {destino}: {cantidad} ventas")
+        print("\nPagos por medio:")
+        for medio_pago, cantidad in informe["pagos_por_medio"].items():
+            print(f"  {medio_pago}: {cantidad} pagos")
+        
+       
