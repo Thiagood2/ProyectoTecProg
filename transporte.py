@@ -1,6 +1,6 @@
 from datetime import datetime
 from viajes import Unidad, Itinerario
-
+from collections import defaultdict
 
 class Servicio:
     def __init__(self, id_servicio:str, unidad:Unidad,fecha_partida:datetime, fecha_llegada:datetime, calidad:str,precio:float, itinerario:Itinerario):
@@ -11,8 +11,12 @@ class Servicio:
         self.calidad = calidad
         self.precio = precio
         self.itinerario = itinerario
+        self.reservas = []
 
-
+    def agregar_reserva(self, reserva):
+        self.reservas.append(reserva)
+    def obtener_reservas(self):
+        return self.reservas
     def obtener_id(self):
         return self.id
     def obtener_unidad(self):
@@ -62,6 +66,55 @@ class Argentur:
     
     def obtener_estado_sistema(self):
         return self.sistema_activo
+    
+    def generar_informe(self, fecha_desde: datetime, fecha_hasta: datetime):
+        generador = GeneradorInforme(self.servicios)
+        informe = generador.generar(fecha_desde, fecha_hasta)
+
+        # Mostrar el informe
+        print("\n--- INFORME ---")
+        print(f"Período: {fecha_desde.strftime('%d/%m/%Y')} - {fecha_hasta.strftime('%d/%m/%Y')}")
+        print(f"Total facturado: ${informe['total_facturado']}")
+        print("\nViajes por destino:")
+        for destino, cantidad in informe["viajes_por_destino"].items():
+            print(f"  {destino}: {cantidad} viajes")
+        print("\nPagos por medio:")
+        for medio, cantidad in informe["pagos_por_medio"].items():
+            print(f"  {medio}: {cantidad} pagos")
+
+
+class GeneradorInforme:
+    def __init__(self, servicios):
+        self.servicios = servicios
+
+    def generar(self, fecha_desde: datetime, fecha_hasta: datetime):
+        from usuarios import Reserva
+        total_facturado = 0
+        viajes_por_destino = defaultdict(int)
+        pagos_por_medio = defaultdict(int)
+
+        for servicio in self.servicios:
+            for reserva in servicio.obtener_reservas():
+                if isinstance(reserva, Reserva):
+                    fecha_reserva = reserva.obtener_fecha_reserva()
+                    if fecha_desde <= fecha_reserva <= fecha_hasta:
+                        # Sumar al total facturado
+                        total_facturado += reserva.obtener_precio_reserva()
+
+                        # Contar viajes por destino
+                        destino = servicio.obtener_ciudad_destino()
+                        viajes_por_destino[destino] += 1
+
+                        # Contar pagos por medio de pago
+                        medio_pago = reserva.medio_pago.__class__.__name__
+                        pagos_por_medio[medio_pago] += 1
+
+        return {
+            "total_facturado": total_facturado,
+            "viajes_por_destino": viajes_por_destino,
+            "pagos_por_medio": pagos_por_medio,
+        }
+        
 
 
 

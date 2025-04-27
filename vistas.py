@@ -41,6 +41,9 @@ class VistaServicio:
 
     def mostrar_servicios_disp (self, empresa:Argentur):
         print('\n\n -- SERVICIOS DISPONIBLES --')
+        if len(empresa.obtener_servicios_disponibles()) == 0:
+            print('No hay servicios disponibles.')
+            return
         for servicio in empresa.obtener_servicios_disponibles():
             self.mostrar_servicio(servicio)
         

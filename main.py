@@ -4,6 +4,7 @@ from transporte import Servicio, Argentur
 from vistas import VistaServicio, VistaReserva
 from usuarios import Reserva, Pasajero
 
+
 # Crear ciudades
 c1 = Ciudad("CBA", "Córdoba", "Córdoba")
 c2 = Ciudad("MDZ", "Mendoza", "Mendoza")
@@ -85,6 +86,7 @@ if __name__ == "__main__":
                 if reserva is not None:
                     print("Realizando reserva...")
                     print(f"Reserva realizada: Pasajero {pasajero.obtener_nombre()}, asiento {numero_asiento}, servicio del {servicio.obtener_fecha_partida()}.")
+                    servicio.agregar_reserva(reserva)
                 else:
                     print("No se pudo realizar la reserva.")
             else:
@@ -96,8 +98,12 @@ if __name__ == "__main__":
                 pasajero = Pasajero(nombre, email, dni)
                 print(f"Pasajero registrado: {pasajero.obtener_nombre()}, DNI: {pasajero.obtener_dni()}")
         elif opcion == "3":
-            #Consultar Informe (a implementar)
-            print("Funcionalidad de informe no implementada.")
+             #Consultar Informe
+             print("\n--- Generar Informe ---")
+             fecha_desde = datetime(2025, 5, 9, 8)
+             fecha_hasta = datetime(2025, 5,  16,  8)
+             empresa.generar_informe(fecha_desde, fecha_hasta)
+           
         elif opcion == "4":
             #Consultar Reservas Pendientes a pagar de Pasajero
             print("\n\n -- Sus Reservas Pendientes --")

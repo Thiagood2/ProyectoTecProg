@@ -2,6 +2,7 @@ from datetime import datetime,timedelta
 from transporte import Servicio
 from viajes import Asiento
 from pagos import MedioPago
+
 class Pasajero:
     def __init__(self,nombre:str,email:str,dni:int):
         self.nombre = nombre
@@ -64,7 +65,7 @@ class Reserva:
 
 
     def obtener_fecha_reserva(self):
-        return self.fecha_reserva.strftime("%d/%m/%Y %H:%M") #Formato de fecha
+        return self.fecha_reserva #Formato de fecha
     
     def obtener_fecha_expiracion(self):
         return self.fecha_expiracion
