@@ -106,7 +106,7 @@ class GeneradorInforme:
                         viajes_por_destino[destino] += 1
 
                         # Contar pagos por medio de pago
-                        medio_pago = reserva.medio_pago.__class__.__name__
+                        medio_pago = reserva.medio_pago #Tendria que hacer un metodo reserva.obtener_medio_pago()
                         pagos_por_medio[medio_pago] += 1
 
         return {

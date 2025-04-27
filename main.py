@@ -100,8 +100,10 @@ if __name__ == "__main__":
         elif opcion == "3":
              #Consultar Informe
              print("\n--- Generar Informe ---")
-             fecha_desde = datetime(2025, 5, 9, 8)
-             fecha_hasta = datetime(2025, 5,  16,  8)
+             fecha_desde_str = input("Ingrese la fecha desde (YYYY-MM-DD): ")
+             fecha_hasta_str = input("Ingrese la fecha hasta (YYYY-MM-DD): ")
+             fecha_desde = datetime.strptime(fecha_desde_str, "%Y-%m-%d")
+             fecha_hasta = datetime.strptime(fecha_hasta_str, "%Y-%m-%d")
              empresa.generar_informe(fecha_desde, fecha_hasta)
            
         elif opcion == "4":
