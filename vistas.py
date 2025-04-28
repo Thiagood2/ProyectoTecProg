@@ -95,6 +95,7 @@ class VistaInforme:
 
         for destino, cantidad in informe["ventas_por_destino"].items():
             print(f"  {destino}: {cantidad} ventas")
+            
         print("\nPagos por medio:")
         for medio_pago, cantidad in informe["pagos_por_medio"].items():
             print(f"  {medio_pago}: {cantidad} pagos")

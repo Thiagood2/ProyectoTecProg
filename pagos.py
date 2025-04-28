@@ -43,7 +43,7 @@ class TarjetaCredito(MedioPago):
         self.numero = numero
         self.dni_titular = dni_titular
         self.nombre_titular = nombre_titular
-        self.fecha_nacimiento = fecha_vencimiento
+        self.fecha_vencimiento = fecha_vencimiento
 
     def procesar_pago(self, monto: float):
         print(f'Procesando pago ${monto} con TarjetaCredito')
