@@ -11,7 +11,7 @@ c1 = Ciudad("CBA", "Córdoba", "Córdoba")
 c2 = Ciudad("MDZ", "Mendoza", "Mendoza")
 c3 = Ciudad("SFE", "Santa Fe", "Santa Fe")
 c4 = Ciudad("LGR", "Las Grutas", "Rio Negro")
-c5 = Ciudad("USH", "Usuahia", "Tierra del Fuego")
+c5 = Ciudad("USH", "Ushuaia", "Tierra del Fuego")
 
 # Crear Asientos para Unidad 1
 asientos_u1 = [
@@ -80,11 +80,12 @@ if __name__ == "__main__":
         else:   
             print('2. Registrarse como Usuario')      
         print("3. Consultar Informe")
+        print("4. Consultar Reservas")
         
 
         if (pasajero is not None) and (len(pasajero.obtener_reservas()) > 0):
-            print("4. Consultar Reservas Pendientes")
-            print("5. Pagar Reservas Pendientes")
+            print("5. Consultar Reservas Pendientes")
+            print("6. Pagar Reservas Pendientes")
         print("F4. Salir")
 
         opcion = input("Seleccione una opción: ")
@@ -129,14 +130,29 @@ if __name__ == "__main__":
              fecha_desde = datetime.strptime(fecha_desde_str, "%Y-%m-%d")
              fecha_hasta = datetime.strptime(fecha_hasta_str, "%Y-%m-%d")
              vista_informe.mostrar_informe(empresa.obtener_ventas(), fecha_desde, fecha_hasta)
-           
+        
         elif opcion == "4":
+            #Consultar Reservas de Pasajero
+            print("\n\n -- Historial de Reservas Pagadas --")
+            if pasajero is not None:
+               reservas_pagadas = pasajero.obtener_reservas_pagas()
+
+               if len(reservas_pagadas) == 0:
+                print("No tiene reservas pagadas.")
+               else:
+                vista_reserva = VistaReserva()
+                for reserva in reservas_pagadas:
+                    vista_reserva.mostrar_reserva_pagada(reserva)
+            else:
+                print("Debe registrarse como pasajero para consultar el historial.")
+
+        elif opcion == "5":
             #Consultar Reservas Pendientes a pagar de Pasajero
             print("\n\n -- Sus Reservas Pendientes --")
             vista_reserva = VistaReserva()
             vista_reserva.mostrar_reservas_pasajero(pasajero)
 
-        elif opcion == "5":
+        elif opcion == "6":
             # Concretar ventas (pagar reservas pendientes)
             print("\n\n -- Pagar Reservas Pendientes --")
             if pasajero is not None:

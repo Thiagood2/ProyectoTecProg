@@ -8,12 +8,19 @@ class Pasajero:
         self.email = email
         self.dni = dni
         self.reservas = []
+        self.reservas_pagadas = []
 
     def agregar_reserva(self, reserva):
         self.reservas.append(reserva)
 
     def obtener_reservas(self):
         return self.reservas 
+    
+    def obtener_reservas_pagas(self):
+        return self.reservas_pagadas
+    
+    def agregar_reserva_pagada(self, reserva):
+        self.reservas_pagadas.append(reserva)
     
     def eliminar_reserva_propia(self, reserva):
         if reserva in self.reservas:
@@ -72,6 +79,7 @@ class Reserva:
             return
         
         self.pasajero.eliminar_reserva_propia(self)
+        self.pasajero.agregar_reserva_pagada(self)
 
     def obtener_fecha_reserva(self):
         return self.fecha_reserva.strftime("%d/%m/%Y %H:%M") #Formato de fecha

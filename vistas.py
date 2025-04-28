@@ -61,9 +61,20 @@ class VistaReserva:
         print(f'Fecha Reserva: {reserva.obtener_fecha_reserva()}')
         print(f'Expira en: {reserva.obtener_tiempo_restante()}')
 
+    def mostrar_reserva_pagada(self,reserva:Reserva) ->None:
 
+        print(f'\n\nID Servicio: {reserva.obtener_nombre_servicio()}')
+        print(f'Precio Servicio: ${reserva.obtener_precio_reserva()}')
+        print(f'Asiento Elegido: {reserva.obtener_asiento()}')
+        print(f'Fecha Reserva: {reserva.obtener_fecha_reserva()}')
+        
+    
     def mostrar_reservas_pasajero(self, pasajero:Pasajero) ->None:
         for reserva in pasajero.obtener_reservas():
+            self.mostrar_reserva(reserva)
+    
+    def mostrar_reservas_pasajero_pagas(self, pasajero:Pasajero) ->None:
+        for reserva in pasajero.obtener_reservas_pagas():
             self.mostrar_reserva(reserva)
 
 
@@ -77,7 +88,7 @@ class VistaInforme:
         print('\n\n -- INFORME DE VENTAS --')
         print(f"Período: {fecha_desde.strftime('%d/%m/%Y')} - {fecha_hasta.strftime('%d/%m/%Y')}")
 
-        print(f'Total Facturado: ${informe['total_facturado']:.2f}')
+        print(f'Total Facturado: ${informe["total_facturado"]:.2f}')
         
         print("\nVentas por destino:")
 
