@@ -13,15 +13,37 @@ c3 = Ciudad("SFE", "Santa Fe", "Santa Fe")
 c4 = Ciudad("LGR", "Las Grutas", "Rio Negro")
 c5 = Ciudad("USH", "Usuahia", "Tierra del Fuego")
 
-#Crear Asientos
-a1 = Asiento(1,True)
-a2 = Asiento(2,False)
-a3 = Asiento(3,True)
-a4 = Asiento(4,False)
-a5 = Asiento(5,False)
+# Crear Asientos para Unidad 1
+asientos_u1 = [
+    Asiento(1, False),
+    Asiento(2, False),
+    Asiento(3, False),
+    Asiento(4, False),
+    Asiento(5, False)
+]
 
-Asientos = [a1,a2,a3,a4,a5]
-Asientos_ocupados = [a1,a3]
+# Crear Asientos para Unidad 2
+asientos_u2 = [
+    Asiento(1, False),
+    Asiento(2, False),
+    Asiento(3, False),
+    Asiento(4, False),
+    Asiento(5, False)
+]
+
+# Crear Asientos para Unidad 3 (algunos ocupados)
+asientos_u3 = [
+    Asiento(1, True),
+    Asiento(2, False),
+    Asiento(3, True),
+    Asiento(4, False),
+    Asiento(5, False)
+]
+
+# Crear unidades con sus propios asientos
+u1 = Unidad("ABC123", asientos_u1)
+u2 = Unidad("BFD323", asientos_u2)
+u3 = Unidad("CTA587", asientos_u3)
 
 # Crear itinerario
 it1 = Itinerario(c1, c2)
@@ -32,10 +54,6 @@ it2 = Itinerario(c3, c5)
 it2.agregar_paradas(c2)
 it2.agregar_paradas(c4)
 
-# Crear unidad
-u1 = Unidad("ABC123",Asientos)
-u2 = Unidad("BFD323",Asientos)
-u3 = Unidad("CTA587",Asientos_ocupados)
 
 # Crear servicio
 s1 = Servicio("001", u1, datetime(2025, 5, 10, 8), datetime(2025, 5, 10, 18), "Turista", 15000, it1)
@@ -53,6 +71,7 @@ if __name__ == "__main__":
     vista_servicio = VistaServicio()
     vista_informe = VistaInforme()
     pasajero = None
+
     while True:
         print("\n\n--- MENU PRINCIPAL ---")
         print("1. Consultar Servicios Disponibles")
@@ -74,7 +93,7 @@ if __name__ == "__main__":
             # Vista de Servicios Disponibles
             vista_servicio.mostrar_servicios_disp(empresa)
         elif opcion == "2":
-            # Realizar Reserva
+            # Busqueda del Servicio
             if pasajero is not None:
                 print('\n\n -- Busqueda de Servicio --')
                 id_servicio = input("Ingrese el ID del servicio: ")
@@ -83,6 +102,8 @@ if __name__ == "__main__":
                     print("ERROR: Servicio no encontrado.")
                     continue
                 vista_servicio.mostrar_servicio_especifico(servicio)
+
+                # Realizar Reserva
                 numero_asiento = int(input("Ingrese el número de asiento: "))
                 reserva = Reserva.realizar_reserva(servicio, pasajero, numero_asiento)
                 if reserva is not None:
@@ -125,7 +146,7 @@ if __name__ == "__main__":
                 else:
                     print("Reservas pendientes:")
                     for i, reserva in enumerate(reservas_pendientes, start=1):
-                        print(f"{i}. Asiento {reserva.obtener_asiento()}, Servicio: {reserva.servicio.obtener_id()}, Precio: ${reserva.servicio.obtener_precio()}")
+                        print(f"{i}. Asiento {reserva.obtener_asiento()}, Servicio: {reserva.obtener_id_servicio()}, Precio: ${reserva.obtener_precio_reserva()}")
             
                     opcion_reserva = int(input("Seleccione el número de la reserva que desea pagar: "))
                     if 1 <= opcion_reserva <= len(reservas_pendientes):

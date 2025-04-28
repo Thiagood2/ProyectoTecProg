@@ -76,8 +76,11 @@ class VistaInforme:
         informe = generarinforme.generar(fecha_desde, fecha_hasta)
         print('\n\n -- INFORME DE VENTAS --')
         print(f"Período: {fecha_desde.strftime('%d/%m/%Y')} - {fecha_hasta.strftime('%d/%m/%Y')}")
+
         print(f'Total Facturado: ${informe['total_facturado']:.2f}')
+        
         print("\nVentas por destino:")
+
         for destino, cantidad in informe["ventas_por_destino"].items():
             print(f"  {destino}: {cantidad} ventas")
         print("\nPagos por medio:")

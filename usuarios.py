@@ -15,7 +15,7 @@ class Pasajero:
     def obtener_reservas(self):
         return self.reservas 
     
-    def eliminar_reserva(self, reserva):
+    def eliminar_reserva_propia(self, reserva):
         if reserva in self.reservas:
             self.reservas.remove(reserva)
         else:
@@ -39,6 +39,9 @@ class Reserva:
     def obtener_precio_reserva(self):
         return self.servicio.obtener_precio()
     
+    def obtener_id_servicio(self):
+        return self.servicio.obtener_id()
+
     def obtener_nombre_servicio(self):
         return self.servicio.obtener_id()
     
@@ -64,11 +67,11 @@ class Reserva:
 
     def eliminar(self):
         if self.estado_expirado():
-            self.pasajero.eliminar_reserva(self)
+            self.pasajero.eliminar_reserva_propia(self)
             self.asiento.marcar_disponible()
             return
         
-        self.pasajero.eliminar_reserva(self)
+        self.pasajero.eliminar_reserva_propia(self)
 
     def obtener_fecha_reserva(self):
         return self.fecha_reserva.strftime("%d/%m/%Y %H:%M") #Formato de fecha
