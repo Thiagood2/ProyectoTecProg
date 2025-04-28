@@ -2,7 +2,8 @@
 from transporte import Servicio,Argentur, GeneradorInforme
 from usuarios import Reserva,Pasajero, Venta
 from datetime import datetime
-#Clase para mostrar todos los Prints de Servicio
+
+#Modulo para mostrar todos los Prints de Servicio, Reserva e Informe
 class VistaServicio:
     def __init__(self):
         pass

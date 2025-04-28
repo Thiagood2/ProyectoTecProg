@@ -55,10 +55,10 @@ class Reserva:
     def obtener_destino_servicio(self):
         return self.servicio.obtener_ciudad_destino()
     
-    def estado_expirado(self) -> bool:
+    def estado_expirado(self) -> bool: # Metodo para verificar si la reserva ha expirado
         return datetime.now() > self.fecha_expiracion
 
-    def obtener_tiempo_restante(self) -> str:
+    def obtener_tiempo_restante(self) -> str: # Metodo para obtener el tiempo restante de la reserva en minutos retornando un string
         resultado_expiracion = "Expirada"
 
         if self.estado_expirado():
@@ -72,7 +72,7 @@ class Reserva:
         
         return resultado_expiracion
 
-    def eliminar(self):
+    def eliminar(self): # Metodo para eliminar la reserva de la lista de reservas del pasajero y marcar el asiento como disponible o Marcarla como pagada
         if self.estado_expirado():
             self.pasajero.eliminar_reserva_propia(self)
             self.asiento.marcar_disponible()
@@ -91,7 +91,7 @@ class Reserva:
         return self.asiento.obtener_numero_asiento()
 
     @staticmethod
-    def realizar_reserva(servicio: Servicio, pasajero: Pasajero, numero_asiento: int):
+    def realizar_reserva(servicio: Servicio, pasajero: Pasajero, numero_asiento: int): # Metodo estatico para realizar la reserva
         # Delegar la verificación del asiento a la unidad
         asiento = servicio.consultar_asiento(numero_asiento)
         if asiento is None:
@@ -114,7 +114,7 @@ class Venta:
         self.fecha_venta = fecha_hora_venta
         self.reserva = reserva  
         self.medio_pago = medio_pago
-        empresa.agregar_venta(self)
+        empresa.agregar_venta(self) # Agregar la venta a la empresa
 
     def obtener_fecha_venta(self):
         return self.fecha_venta
@@ -129,7 +129,7 @@ class Venta:
         return self.medio_pago.mostrar_medio()
     
     @staticmethod
-    def realizar_venta(empresa:Argentur,reserva:Reserva, fecha_hora:datetime,medio_pago:MedioPago):
+    def realizar_venta(empresa:Argentur,reserva:Reserva, fecha_hora:datetime,medio_pago:MedioPago): # Metodo estatico para realizar la venta
         # Delegar la verificación del pago al medio de pago
         if not ProcesadorPago.realizar_pago(medio_pago,reserva.obtener_precio_reserva()):
             print("Error: El pago no fue procesado.")

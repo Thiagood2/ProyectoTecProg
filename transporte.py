@@ -11,12 +11,7 @@ class Servicio:
         self.calidad = calidad
         self.precio = precio
         self.itinerario = itinerario
-        self.reservas = []
 
-    def agregar_reserva(self, reserva):
-        self.reservas.append(reserva)
-    def obtener_reservas(self):
-        return self.reservas
     def obtener_id(self):
         return self.id
     def obtener_unidad(self):

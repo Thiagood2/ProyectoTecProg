@@ -80,7 +80,7 @@ if __name__ == "__main__":
         else:   
             print('2. Registrarse como Usuario')      
         print("3. Consultar Informe")
-        print("4. Consultar Reservas")
+        print("4. Historial Reservas Pagadas")
         
 
         if (pasajero is not None) and (len(pasajero.obtener_reservas()) > 0):
@@ -110,7 +110,6 @@ if __name__ == "__main__":
                 if reserva is not None:
                     print("Realizando reserva...")
                     print(f"Reserva realizada: Pasajero {pasajero.obtener_nombre()}, asiento {numero_asiento}, servicio del {servicio.obtener_fecha_partida()}.")
-                    servicio.agregar_reserva(reserva)
                 else:
                     print("No se pudo realizar la reserva.")
             else:
